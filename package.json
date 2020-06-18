@@ -14,6 +14,7 @@
     "jsonwebtoken": "8.5.1",
     "mongodb": "^3.5.9",
     "mongodb-memory-server": "^6.6.1",
+    "mongoose": "^5.9.19",
     "nodemon": "1.19.1"
   },
   "scripts": {
