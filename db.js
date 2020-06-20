@@ -1,12 +1,14 @@
-const mongoose = require('mongoose')
+const MongoClient = require('mongodb').MongoClient;
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-3pmsx.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, {
+    useNewUrlParser: true
+});
 
-// connect to our MongoDB server.
-const db = mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@my-first-cluster-hr6uj.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`).then(() => {
 
-    app.listen(5000) // setup server to run on port 5000
-
-}).catch(err => {
-    console.log(err)
-})
-
-module.exports = db;
+client.connect(err => {
+    // const collection = client.db("Foodie-db").collection("Foodie");
+    db = client.db("Foodie-db")
+    console.log("Connected correctly to server");
+    // perform actions on the collection object
+    // client.close();
+});

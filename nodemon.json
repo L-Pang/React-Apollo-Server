@@ -1,7 +1,7 @@
 {
     "env": {
-        "MONGO_USER": "amin",
+        "MONGO_USER": "admin",
         "MONGO_PASSWORD": "hello",
-        "MONGO_DB": "foodie-db"
+        "MONGO_DB": "Foodie-db"
     }
 }

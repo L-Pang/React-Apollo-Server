@@ -1,9 +1,15 @@
-const { AuthenticationError } = require('apollo-server');
+const {
+    AuthenticationError
+} = require('apollo-server');
 const faker = require('faker');
 const JsonWebToken = require('jsonwebtoken');
 const Bcrypt = require('bcryptjs');
 
 const jwtSecret = '34%%##@#FGFKFL';
+
+const Product = require('./models/product');
+const Category = require('./models/category');
+const User = require('./models/user');
 
 const isTokenValid = token => {
     const bearerToken = token.split(' ');
@@ -33,7 +39,7 @@ const mockProduct = (id = false) => ({
     thumbnail: faker.image.imageUrl(
         400,
         400,
-        faker.random.arrayElement(['food']),
+        faker.random.arrayElement(['food', 'drink']),
     ),
     desc: faker.commerce.productName,
     price: faker.commerce.price(),
@@ -48,12 +54,31 @@ let order = {
 };
 
 const resolvers = {
+    // Query: {
+    //     product: () => mockProduct(),
+    //     products: (_, { limit = 10 }) =>
+    //         Array.from(Array(limit), () => mockProduct()),
+    //     categories: (_, { limit = 10 }) =>
+    //         Array.from(Array(limit), () => mockCategory()),
+    //     order: () => order,
+    // },
     Query: {
-        product: () => mockProduct(),
-        products: (_, { limit = 10 }) =>
-            Array.from(Array(limit), () => mockProduct()),
-        categories: (_, { limit = 10 }) =>
-            Array.from(Array(limit), () => mockCategory()),
+        product: () => Product.find({})
+            .catch(err => {
+                console.error(err)
+            }),
+        products: () => Product.find({})
+                .then(doc => {
+                    console.log(doc)
+                })
+                .catch(err => {
+                    console.error(err)
+                }),
+        categories: () => Category.find({})
+            .catch(err => {
+                console.error(err)
+            }),
+        // user: () => User.find({}),
         order: () => order,
     },
     Mutation: {
@@ -68,7 +93,9 @@ const resolvers = {
             console.log(order)
             return order;
         },
-        completeOrder: (_, {}, { token }) => {
+        completeOrder: (_, { }, {
+            token
+        }) => {
             const isValid = token ? isTokenValid(token) : false;
 
             if (isValid) {
@@ -83,7 +110,10 @@ const resolvers = {
                 'Please provide (valid) authentication details',
             );
         },
-        loginUser: async(_, { username, password }) => {
+        loginUser: async (_, {
+            username,
+            password
+        }) => {
             let isValid;
             const user = {
                 username: 'test',
@@ -95,7 +125,9 @@ const resolvers = {
             }
 
             if (isValid) {
-                const token = JsonWebToken.sign({ user: user.username }, jwtSecret, {
+                const token = JsonWebToken.sign({
+                    user: user.username
+                }, jwtSecret, {
                     expiresIn: 3600,
                 });
                 return {

@@ -6,6 +6,7 @@
   "dependencies": {
     "apollo-server": "2.9.5",
     "apollo-server-express": "2.9.5",
+    "bcrypt": "^5.0.0",
     "bcryptjs": "2.4.3",
     "express": "4.17.1",
     "faker": "4.1.0",
@@ -15,9 +16,12 @@
     "mongodb": "^3.5.9",
     "mongodb-memory-server": "^6.6.1",
     "mongoose": "^5.9.19",
-    "nodemon": "1.19.1"
+    "mongoose-seed": "^0.6.0",
+    "nodemon": "1.19.1",
+    "v-response": "^1.1.0"
   },
   "scripts": {
+    "seed": "node seeder.js",
     "start": "nodemon index.js"
   },
   "author": "",

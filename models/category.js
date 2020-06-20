@@ -10,7 +10,7 @@ const categorySchema = new Schema({
         required: true
     }
 
-})
+}, { collection: 'Category' })
 
 // create and export the model
 module.exports = mongoose.model('Category', categorySchema)
