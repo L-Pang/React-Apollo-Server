@@ -9,7 +9,7 @@ const jwtSecret = '34%%##@#FGFKFL';
 
 const Product = require('./models/product');
 const Category = require('./models/category');
-const User = require('./models/user');
+// const User = require('./models/user');
 
 const isTokenValid = token => {
     const bearerToken = token.split(' ');
