@@ -7,7 +7,8 @@ const jwtSecret = '34%%##@#FGFKFL';
 
 const Product = require('./models/product');
 const Category = require('./models/category');
-const { ObjectId } = require('mongoose');
+const { ObjectId, isValidObjectId } = require('mongoose');
+const mongoose = require('mongoose');
 // const User = require('./models/user');
 
 const isTokenValid = token => {
@@ -46,32 +47,15 @@ const mockProduct = (id = false) => ({
     category: mockCategory(),
 });
 
-// const getProduct = id => {
-//     console.log(mongoose.isValidObjectId(id))
-//     const product = Product.find({ name: "Caesar Salad" })
-//     // .then(doc => {
-//     //     console.log(doc)
-//     // })
-//     // .catch(err => {
-//     //     console.error(err)
-//     // })
-//     product.then(function (data) {
-//         data.forEach(function (data) {
-//             // console.log(data.id);
-//             // console.log(getRecord(data));
-//             data.toObject({ virtuals: true })
-//         });
-//     })
-// };
-
 async function getProduct(id) {
-    return await Product.findOne({ name: "Caesar Salad" }).exec();
+    console.log(isValidObjectId(id))
+    return await Product.find().exec();
 }
 
 let order = {
     total: 0,
     products: [],
-    complete: false,
+    complete: true,
 };
 
 const resolvers = {
@@ -108,18 +92,19 @@ const resolvers = {
         //         total: order.total + 1,
         //         products: [...order.products, mockProduct(id)],
         //     };
-        //     console.log(order)
         //     return order;
         // },
         addToOrder: (_, {
             id
         }) => {
+            console.log(id)
             order = {
                 ...order,
                 total: order.total + 1,
                 products: [...order.products, getProduct(id)],
+                complete: false,
             };
-            console.log(order, "line 131")
+            console.log(order)
             return order;
         },
         completeOrder: (_, { }, {
@@ -128,8 +113,13 @@ const resolvers = {
             const isValid = token ? isTokenValid(token) : false;
 
             if (isValid) {
+                // order = {
+                //     ...order,
+                //     complete: true,
+                // };
                 order = {
-                    ...order,
+                    total: 0,
+                    products: [],
                     complete: true,
                 };
 
