@@ -68,9 +68,9 @@ const resolvers = {
                 console.error(err)
             }),
         products: () => Product.find({})
-                .then(doc => {
-                    console.log(doc)
-                })
+                // .then(doc => {
+                //     console.log(doc)
+                // })
                 .catch(err => {
                     console.error(err)
                 }),
