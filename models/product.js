@@ -8,7 +8,7 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    lodation: {
+    location: {
         type: String,
         required: true
     },
