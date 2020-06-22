@@ -38,7 +38,7 @@ const typeDefs = gql `
     order: Order
   }
   type Mutation {
-    addToOrder(input: OrderInput!): Order
+    addToOrder(productId: ID!): Order
     completeOrder: Order
     loginUser(username: String!, password: String!): User
   }

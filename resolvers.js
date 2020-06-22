@@ -47,9 +47,11 @@ const mockProduct = (id = false) => ({
     category: mockCategory(),
 });
 
-async function getProduct(id) {
-    console.log(isValidObjectId(id))
-    return await Product.find().exec();
+async function getProduct(productId) {
+    console.log(isValidObjectId(productId))
+    // return await Product.findOne({ name: "Caesar Salad" }).exec();
+    // return await Product.findOne({ _id: mongoose.Types.ObjectId('5eed8ebd6d21b5a10a1c666f') }).exec()
+    return await Product.findOne({ _id: productId }).exec();
 }
 
 let order = {
@@ -95,13 +97,13 @@ const resolvers = {
         //     return order;
         // },
         addToOrder: (_, {
-            id
-        }) => {
-            console.log(id)
+            productId
+        }, { token }) => {
+            console.log(productId)
             order = {
                 ...order,
                 total: order.total + 1,
-                products: [...order.products, getProduct(id)],
+                products: [...order.products, getProduct(productId)],
                 complete: false,
             };
             console.log(order)
