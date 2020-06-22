@@ -28,9 +28,6 @@ const typeDefs = gql `
     products: [Product]
     complete: Boolean
   }
-  input OrderInput {
-    productId: ID!
-  }
   type Query {
     product: Product
     products(limit: Int): [Product]
