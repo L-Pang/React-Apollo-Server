@@ -104,16 +104,16 @@ const resolvers = {
             };
             return order;
         },
-        removeFromOrder: (_, {
+        /*removeFromOrder: (_, {
             productId
         }) => {
-            remove = order.products.find(item => item.ide == productId);
+            remove = order.products.find(item => item.id == productId);
             num = remove.num;
             remove.num = 0;
             newProducts = order.products.filter(item => item.id !== productId);
             order = {
                 ...order,
-                total: order.total - remove.num,
+                total: order.total - num,
                 products: [...newProducts],
                 complete: false,
             };
@@ -122,7 +122,7 @@ const resolvers = {
         incrementQty: (_, {
             productId
         }) => {
-            increment = order.products.find(item => item.ide == productId);
+            increment = order.products.find(item => item.id == productId);
             increment.num++;
             order = {
                 ...order,
@@ -134,7 +134,7 @@ const resolvers = {
         decrementQty: (_, {
             productId
         }) => {
-            decrement = order.products.find(item => item.ide == productId);
+            decrement = order.products.find(item => item.id == productId);
             decrement.num--;
             order = {
                 ...order,
@@ -145,7 +145,7 @@ const resolvers = {
                 removeFromOrder(productId);
             }
             return order;
-        },
+        },*/
         completeOrder: (_, { }, {
             token
         }) => {
