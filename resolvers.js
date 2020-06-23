@@ -103,6 +103,48 @@ const resolvers = {
             };
             return order;
         },
+        /*removeFromOrder: (_, {
+            productId
+        }) => {
+            remove = order.products.find(item => item.id == productId);
+            num = remove.num;
+            remove.num = 0;
+            newProducts = order.products.filter(item => item.id !== productId);
+            order = {
+                ...order,
+                total: order.total - num,
+                products: [...newProducts],
+                complete: false,
+            };
+            return order;
+        },
+        incrementQty: (_, {
+            productId
+        }) => {
+            increment = order.products.find(item => item.id == productId);
+            increment.num++;
+            order = {
+                ...order,
+                total: order.total + 1,
+                complete: false,
+            };
+            return order;
+        },
+        decrementQty: (_, {
+            productId
+        }) => {
+            decrement = order.products.find(item => item.id == productId);
+            decrement.num--;
+            order = {
+                ...order,
+                total: order.total - 1,
+                complete: false,
+            };
+            if (decrement.num <= 0) {
+                removeFromOrder(productId);
+            }
+            return order;
+        },*/
         completeOrder: (_, { }, {
             token
         }) => {
