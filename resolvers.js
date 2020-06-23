@@ -7,7 +7,6 @@ const jwtSecret = '34%%##@#FGFKFL';
 
 const Product = require('./models/product');
 const Category = require('./models/category');
-const { ObjectId, isValidObjectId } = require('mongoose');
 const mongoose = require('mongoose');
 // const User = require('./models/user');
 
