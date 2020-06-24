@@ -36,9 +36,6 @@ const typeDefs = gql `
   }
   type Mutation {
     addToOrder(productId: ID!): Order
-    removeFromOrder(productId: ID!): Order
-    incrementQty(productId: ID!): Order
-    decrementQty(productId: ID!): Order
     completeOrder: Order
     loginUser(username: String!, password: String!): User
   }
