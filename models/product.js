@@ -29,10 +29,18 @@ const productSchema = new Schema({
         required: true
     },
     category: {
-        type: Schema.ObjectId,
-        ref: 'Category'
+        id: {
+            type: Schema.ObjectId,
+            ref: 'Category'
+        },
+        title: {
+            type: String,
+            required: true
+        }
     }
-}, { collection: 'Product' })
+}, {
+    collection: 'Product'
+})
 
 // create and export the model
 module.exports = mongoose.model('Product', productSchema)
