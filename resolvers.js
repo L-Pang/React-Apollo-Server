@@ -58,7 +58,8 @@ async function getCategory(category) {
     }).exec();
 }
 
-async function createProduct(name, location, thumbnail, desc, price, Category) {
+async function createProduct(name, location, thumbnail, desc, price, category) {
+
     return await Product.create({
         name: name,
         location: location,
@@ -66,7 +67,9 @@ async function createProduct(name, location, thumbnail, desc, price, Category) {
         desc: desc,
         price: price,
         rating: 5,
-        category: Category
+        category: {
+            title: category
+        }
     }).exec();
 }
 
@@ -224,9 +227,7 @@ const resolvers = {
             price,
             category
         }) => {
-            let Category = getCategory(category)
-            console.log(Category)
-            return createProduct(name, location, thumbnail, desc, price, Category);
+            return createProduct(name, location, thumbnail, desc, price, category);
         },
     },
 };
