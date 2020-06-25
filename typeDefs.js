@@ -30,7 +30,7 @@ const typeDefs = gql`
     thumbnail: String!
     price: Float
     qty: Int!
-    totalPrice: Int!
+    totalPrice: Float
   }
   type Order {
     total: Float
@@ -45,6 +45,7 @@ const typeDefs = gql`
   }
   type Mutation {
     addToOrder(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Order
+    removeFromOrder(productId: ID!): Order
     incrementQty(productId: ID!): Order
     decrementQty(productId: ID!): Order
     completeOrder: Order
