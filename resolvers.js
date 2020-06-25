@@ -218,7 +218,15 @@ const resolvers = {
                 complete: false,
             };
             if (decrement.qty <= 0) {
-                removeFromOrder(productId);
+              newProducts = order.products.filter(item => item.id !== productId);
+              order = {
+                  ...order,
+                  total: order.total,
+                  products: [...newProducts],
+                  totalPrice: order.totalPrice,
+                  complete: false,
+              };
+              console.log(order.totalPrice);
             }
             console.log(order)
             return order;
