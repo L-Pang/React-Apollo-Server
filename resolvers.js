@@ -79,6 +79,7 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
 let order = {
     total: 0,
     products: [],
+    totalPrice: 0,
     complete: true,
 }
 
@@ -162,10 +163,10 @@ const resolvers = {
                     ...order,
                     total: order.total + 1,
                     products: [...order.products, product],
+                    totalPrice: order.totalPrice + product.price,
                     complete: false,
                 };
             }
-            console.log(order)
             return order;
         },
         removeFromOrder: (_, {
@@ -175,10 +176,16 @@ const resolvers = {
             qty = remove.qty;
             remove.qty = 0;
             newProducts = order.products.filter(item => item.id !== productId);
+            let total = 0;
+            let i;
+            for (i = 0; i < newProducts.length; i ++) {
+                total += newProducts[i].price * newProducts[i].qty;
+            }
             order = {
                 ...order,
                 total: order.total - qty,
                 products: [...newProducts],
+                totalPrice: total,
                 complete: false,
             };
             return order;
@@ -192,6 +199,7 @@ const resolvers = {
             order = {
                 ...order,
                 total: order.total + 1,
+                totalPrice: order.totalPrice + increment.price,
                 complete: false,
             };
             console.log(order)
@@ -205,6 +213,7 @@ const resolvers = {
             order = {
                 ...order,
                 total: order.total - 1,
+                totalPrice: order.totalPrice - decrement.price,
                 complete: false,
             };
             if (decrement.qty <= 0) {
