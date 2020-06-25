@@ -49,9 +49,8 @@ const mockProduct = (id = false) => ({
 async function getProduct(productId) {
     return await Product.findOne({
         _id: productId
-    }).catch(function (error) {
-        console.log(error)
-    });
+    })
+        .exec();
 }
 
 async function getCategory(category) {
@@ -72,7 +71,9 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
         category: {
             title: category
         }
-    }).exec();
+    }).catch(function (error) {
+        console.log(error)
+    });
 }
 
 let order = {
