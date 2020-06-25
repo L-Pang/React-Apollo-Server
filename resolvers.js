@@ -155,8 +155,10 @@ const resolvers = {
                     ...order,
                     total: order.total + 1,
                     products: [...order.products],
+                    totalPrice: order.totalPrice + product.price,
                     complete: false,
                 };
+                console.log(order.totalPrice);
             } else {
                 product.qty = 1;
                 order = {
@@ -166,10 +168,11 @@ const resolvers = {
                     totalPrice: order.totalPrice + product.price,
                     complete: false,
                 };
+                console.log(order.totalPrice);
             }
             return order;
         },
-        removeFromOrder: (_, {
+        /*removeFromOrder: (_, {
             productId
         }) => {
             remove = order.products.find(item => item.id == productId);
@@ -189,7 +192,7 @@ const resolvers = {
                 complete: false,
             };
             return order;
-        },
+        },*/
         incrementQty: (_, {
             productId
         }) => {
