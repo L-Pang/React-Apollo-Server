@@ -47,7 +47,27 @@ const mockProduct = (id = false) => ({
 });
 
 async function getProduct(productId) {
-    return await Product.findOne({ _id: productId }).exec();
+    return await Product.findOne({
+        _id: productId
+    }).exec();
+}
+
+async function getCategory(category) {
+    return await Product.findOne({
+        title: category
+    }).exec();
+}
+
+async function createProduct(name, location, thumbnail, desc, price, Category) {
+    return await Product.create({
+        name: name,
+        location: location,
+        thumbnail: thumbnail,
+        desc: desc,
+        price: price,
+        rating: 5,
+        category: Category
+    }).exec();
 }
 
 let order = {
@@ -195,6 +215,17 @@ const resolvers = {
             throw new AuthenticationError(
                 'Please provide (valid) authentication details',
             );
+        },
+        addProduct: (_, {
+            name,
+            location,
+            thumbnail,
+            desc,
+            price,
+            category
+        }) => {
+            let Category = getCategory(category)
+            return createProduct(name, location, thumbnail, desc, price, Category);
         },
     },
 };
