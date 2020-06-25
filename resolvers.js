@@ -118,27 +118,66 @@ const resolvers = {
         //     };
         //     return order;
         // },
+        // addToOrder: (_, {
+        //     productId
+        // }) => {
+        //     order = {
+        //         ...order,
+        //         total: order.total + 1,
+        //         products: [...order.products, getProduct(productId)],
+        //         complete: false,
+        //     };
+        //     return order;
+        // },
         addToOrder: (_, {
-            productId
+            productId, name, location, thumbnail, price
         }) => {
-            order = {
-                ...order,
-                total: order.total + 1,
-                products: [...order.products, getProduct(productId)],
-                complete: false,
-            };
+            let product = {
+                id: productId,
+                name: name,
+                location: location,
+                thumbnail: thumbnail,
+                price: price
+            }
+            const index = order.products.findIndex(item => {
+                return item.id == productId
+            });
+            if (index >= 0) {
+                let orderData = order.products[index];
+                let incQty = orderData.qty + 1;
+                let incOrder = {
+                    ...orderData,
+                    qty: incQty
+                }
+                order.products[index] = incOrder;
+                order = {
+                    ...order,
+                    total: order.total + 1,
+                    products: [...order.products],
+                    complete: false,
+                };
+            } else {
+                product.qty = 1;
+                order = {
+                    ...order,
+                    total: order.total + 1,
+                    products: [...order.products, product],
+                    complete: false,
+                };
+            }
+            console.log(order)
             return order;
         },
-        /*removeFromOrder: (_, {
+        removeFromOrder: (_, {
             productId
         }) => {
             remove = order.products.find(item => item.id == productId);
-            num = remove.num;
-            remove.num = 0;
+            qty = remove.qty;
+            remove.qty = 0;
             newProducts = order.products.filter(item => item.id !== productId);
             order = {
                 ...order,
-                total: order.total - num,
+                total: order.total - qty,
                 products: [...newProducts],
                 complete: false,
             };
@@ -148,7 +187,7 @@ const resolvers = {
             productId
         }) => {
             increment = order.products.find(item => item.id == productId);
-            increment.num++;
+            increment.qty++;
             order = {
                 ...order,
                 total: order.total + 1,
@@ -160,17 +199,17 @@ const resolvers = {
             productId
         }) => {
             decrement = order.products.find(item => item.id == productId);
-            decrement.num--;
+            decrement.qty--;
             order = {
                 ...order,
                 total: order.total - 1,
                 complete: false,
             };
-            if (decrement.num <= 0) {
+            if (decrement.qty <= 0) {
                 removeFromOrder(productId);
             }
             return order;
-        },*/
+        },
         completeOrder: (_, { }, {
             token
         }) => {
