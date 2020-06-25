@@ -186,19 +186,21 @@ const resolvers = {
         incrementQty: (_, {
             productId
         }) => {
-            increment = order.products.find(item => item.id == productId);
+            console.log(productId)
+            let increment = order.products.find(item => item.id == productId);
             increment.qty++;
             order = {
                 ...order,
                 total: order.total + 1,
                 complete: false,
             };
+            console.log(order)
             return order;
         },
         decrementQty: (_, {
             productId
         }) => {
-            decrement = order.products.find(item => item.id == productId);
+            let decrement = order.products.find(item => item.id == productId);
             decrement.qty--;
             order = {
                 ...order,
@@ -208,6 +210,7 @@ const resolvers = {
             if (decrement.qty <= 0) {
                 removeFromOrder(productId);
             }
+            console.log(order)
             return order;
         },
         completeOrder: (_, { }, {
