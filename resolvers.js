@@ -158,7 +158,6 @@ const resolvers = {
                     totalPrice: order.totalPrice + product.price,
                     complete: false,
                 };
-                console.log(order.totalPrice);
             } else {
                 product.qty = 1;
                 order = {
@@ -168,7 +167,6 @@ const resolvers = {
                     totalPrice: order.totalPrice + product.price,
                     complete: false,
                 };
-                console.log(order.totalPrice);
             }
             return order;
         },
@@ -238,6 +236,7 @@ const resolvers = {
                 order = {
                     total: 0,
                     products: [],
+                    totalPrice: 0,
                     complete: true,
                 };
 
