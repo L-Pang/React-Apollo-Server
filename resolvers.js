@@ -225,6 +225,7 @@ const resolvers = {
             category
         }) => {
             let Category = getCategory(category)
+            console.log(Category)
             return createProduct(name, location, thumbnail, desc, price, Category);
         },
     },
