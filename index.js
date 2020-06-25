@@ -20,15 +20,15 @@ server.applyMiddleware({ app, path: '/graphql' });
 const httpServer = createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
-httpServer.listen({ port: process.env.PORT || 4000, hostname: '0.0.0.0' }, () => {
-    console.log('Apollo Server on http://localhost:' + process.env.PORT + '/ graphql');
-});
-
-// httpServer.listen({
-//     port: 4000,
-// }, () => {
-//     console.log('Apollo Server on 4000/graphql');
+// httpServer.listen({ port: process.env.PORT || 4000, hostname: '0.0.0.0' }, () => {
+//     console.log('Apollo Server on http://localhost:' + process.env.PORT + '/ graphql');
 // });
+
+httpServer.listen({
+    port: 4000,
+}, () => {
+    console.log('Apollo Server on 4000/graphql');
+});
 
 const mongoose = require('mongoose');
 mongoose
