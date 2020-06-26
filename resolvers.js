@@ -168,6 +168,7 @@ const resolvers = {
                     complete: false,
                 };
             }
+            console.log(order)
             return order;
         },
         /*removeFromOrder: (_, {

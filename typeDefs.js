@@ -30,11 +30,11 @@ const typeDefs = gql`
     thumbnail: String!
     price: Float
     qty: Int!
-    totalPrice: Float
   }
   type Order {
     total: Float
     products: [Item]
+    totalPrice: Float
     complete: Boolean
   }
   type Query {
