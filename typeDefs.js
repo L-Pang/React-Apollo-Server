@@ -31,7 +31,7 @@ const typeDefs = gql`
     price: Float
     qty: Int!
   }
-  type Order {
+  type Cart {
     total: Float
     products: [Item]
     totalPrice: Float
@@ -41,14 +41,14 @@ const typeDefs = gql`
     product: Product
     products(limit: Int): [Product]
     categories: [Category]
-    order: Order
+    cart: Cart
   }
   type Mutation {
-    addToOrder(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Order
-    removeFromOrder(productId: ID!): Order
-    incrementQty(productId: ID!): Order
-    decrementQty(productId: ID!): Order
-    completeOrder: Order
+    addToCart(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Cart
+    removeFromCart(productId: ID!): Cart
+    incrementQty(productId: ID!): Cart
+    decrementQty(productId: ID!): Cart
+    completeCart: Cart
     loginUser(username: String!, password: String!): User
     addProduct(name: String!, location: String!, thumbnail: String!, desc: String!, price: Float, category: String!): Product
   }

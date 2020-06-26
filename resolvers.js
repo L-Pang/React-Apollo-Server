@@ -76,7 +76,7 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
     });
 }
 
-let order = {
+let cart = {
     total: 0,
     products: [],
     totalPrice: 0,
@@ -90,7 +90,7 @@ const resolvers = {
     //         Array.from(Array(limit), () => mockProduct()),
     //     categories: (_, { limit = 10 }) =>
     //         Array.from(Array(limit), () => mockCategory()),
-    //     order: () => order,
+    //     cart: () => cart,
     // },
     Query: {
         product: () => Product.find({})
@@ -106,31 +106,20 @@ const resolvers = {
                 console.error(err)
             }),
         // user: () => User.find({}),
-        order: () => order,
+        cart: () => cart,
     },
     Mutation: {
-        // addToOrder: (_, {
+        // addToCart: (_, {
         //     id
         // }) => {
-        //     order = {
-        //         ...order,
-        //         total: order.total + 1,
-        //         products: [...order.products, mockProduct(id)],
+        //     cart = {
+        //         ...cart,
+        //         total: cart.total + 1,
+        //         products: [...cart.products, mockProduct(id)],
         //     };
-        //     return order;
+        //     return cart;
         // },
-        // addToOrder: (_, {
-        //     productId
-        // }) => {
-        //     order = {
-        //         ...order,
-        //         total: order.total + 1,
-        //         products: [...order.products, getProduct(productId)],
-        //         complete: false,
-        //     };
-        //     return order;
-        // },
-        addToOrder: (_, {
+        addToCart: (_, {
             productId, name, location, thumbnail, price
         }) => {
             let product = {
@@ -140,116 +129,112 @@ const resolvers = {
                 thumbnail: thumbnail,
                 price: price
             }
-            const index = order.products.findIndex(item => {
+            const index = cart.products.findIndex(item => {
                 return item.id == productId
             });
             if (index >= 0) {
-                let orderData = order.products[index];
-                let incQty = orderData.qty + 1;
-                let incOrder = {
-                    ...orderData,
+                let cartData = cart.products[index];
+                let incQty = cartData.qty + 1;
+                let incCart = {
+                    ...cartData,
                     qty: incQty
                 }
-                order.products[index] = incOrder;
-                order = {
-                    ...order,
-                    total: order.total + 1,
-                    products: [...order.products],
-                    totalPrice: order.totalPrice + product.price,
+                cart.products[index] = incCart;
+                cart = {
+                    ...cart,
+                    total: cart.total + 1,
+                    products: [...cart.products],
+                    totalPrice: cart.totalPrice + product.price,
                     complete: false,
                 };
             } else {
                 product.qty = 1;
-                order = {
-                    ...order,
-                    total: order.total + 1,
-                    products: [...order.products, product],
-                    totalPrice: order.totalPrice + product.price,
+                cart = {
+                    ...cart,
+                    total: cart.total + 1,
+                    products: [...cart.products, product],
+                    totalPrice: cart.totalPrice + product.price,
                     complete: false,
                 };
             }
-            console.log(order)
-            return order;
+            return cart;
         },
-        /*removeFromOrder: (_, {
+        /*removeFromCart: (_, {
             productId
         }) => {
-            remove = order.products.find(item => item.id == productId);
+            remove = cart.products.find(item => item.id == productId);
             qty = remove.qty;
             remove.qty = 0;
-            newProducts = order.products.filter(item => item.id !== productId);
+            newProducts = cart.products.filter(item => item.id !== productId);
             let total = 0;
             let i;
             for (i = 0; i < newProducts.length; i ++) {
                 total += newProducts[i].price * newProducts[i].qty;
             }
-            order = {
-                ...order,
-                total: order.total - qty,
+            cart = {
+                ...cart,
+                total: cart.total - qty,
                 products: [...newProducts],
                 totalPrice: total,
                 complete: false,
             };
-            return order;
+            return cart;
         },*/
         incrementQty: (_, {
             productId
         }) => {
             console.log(productId)
-            let increment = order.products.find(item => item.id == productId);
+            let increment = cart.products.find(item => item.id == productId);
             increment.qty++;
-            order = {
-                ...order,
-                total: order.total + 1,
-                totalPrice: order.totalPrice + increment.price,
+            cart = {
+                ...cart,
+                total: cart.total + 1,
+                totalPrice: cart.totalPrice + increment.price,
                 complete: false,
             };
-            console.log(order)
-            return order;
+            return cart;
         },
         decrementQty: (_, {
             productId
         }) => {
-            let decrement = order.products.find(item => item.id == productId);
+            let decrement = cart.products.find(item => item.id == productId);
             decrement.qty--;
-            order = {
-                ...order,
-                total: order.total - 1,
-                totalPrice: order.totalPrice - decrement.price,
+            cart = {
+                ...cart,
+                total: cart.total - 1,
+                totalPrice: cart.totalPrice - decrement.price,
                 complete: false,
             };
             if (decrement.qty <= 0) {
-              newProducts = order.products.filter(item => item.id !== productId);
-              order = {
-                  ...order,
-                  total: order.total,
+              newProducts = cart.products.filter(item => item.id !== productId);
+              cart = {
+                  ...cart,
+                  total: cart.total,
                   products: [...newProducts],
-                  totalPrice: order.totalPrice,
+                  totalPrice: cart.totalPrice,
                   complete: false,
               };
-              console.log(order.totalPrice);
             }
-            console.log(order)
-            return order;
+            return cart;
         },
-        completeOrder: (_, { }, {
+        completeCart: (_, {}, {
             token
         }) => {
             const isValid = token ? isTokenValid(token) : false;
 
             if (isValid) {
-                // order = {
-                //     ...order,
+                // cart = {
+                //     ...cart,
                 //     complete: true,
                 // };
-                order = {
+                cart = {
                     total: 0,
                     products: [],
                     totalPrice: 0,
                     complete: true,
                 };
 
-                return order;
+                return cart;
             }
             throw new AuthenticationError(
                 'Please provide (valid) authentication details',
