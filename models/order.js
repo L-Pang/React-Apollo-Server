@@ -8,45 +8,25 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
-    orders: [{
-        name: {
-            type: String,
-            required: true
-        },
-        location: {
-            type: String,
-            required: true
-        },
-        thumbnail: {
-            type: String,
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true
-        },
-        qty: {
-            type: Number,
-            required: true
-        }
-    }],
-    totalPrice: {
+    location: {
+        type: String,
+        required: true
+    },
+    thumbnail: {
+        type: String,
+        required: true
+    },
+    qty: {
         type: Number,
         required: true
     },
-    complete: {
-        type: Boolean,
+    total: {
+        type: Number,
         required: true
     },
-    category: {
-        id: {
-            type: Schema.ObjectId,
-            ref: 'Category'
-        },
-        title: {
-            type: String,
-            required: true
-        }
+    status: {
+        type: Boolean,
+        required: true
     }
 }, {
     collection: 'Order'
