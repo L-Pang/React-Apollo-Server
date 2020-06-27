@@ -282,13 +282,16 @@ const resolvers = {
             email,
             phone
         }) => {
+            console.log(username, password, email, phone)
             const user = await User.create({
-                username,
-                email,
-                phone,
-                password: await bcrypt.hash(password, 10)
-            })
-
+                username: username,
+                password: await Bcrypt.hash(password, 10),
+                email: email,
+                phone: phone,
+                orders: []
+            }).catch(function (error) {
+                console.log(error)
+            });
             const token = JsonWebToken.sign({
                 user: user.username
                 }, jwtSecret, {

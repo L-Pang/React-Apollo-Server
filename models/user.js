@@ -20,10 +20,6 @@ const userSchema = new Schema({
         required: true,
     },
     phone: {
-        type: Number,
-        required: true,
-    },
-    token: {
         type: String,
         required: true,
     },

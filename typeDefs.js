@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server');
 
-const typeDefs = gql`
+const typeDefs = gql `
   type Product {
     id: ID!
     name: String!
@@ -20,8 +20,19 @@ const typeDefs = gql`
     username: String!
     password: String!
     email: String!
-    phone: Int!
+    phone: String!
+    orders: [Order]
+    customers: [User]
     token: String!
+  }
+  type Order {
+    id: ID!
+    name: String!
+    location: String!
+    thumbnail: String!
+    qty: Int!
+    total: Float
+    status: Boolean
   }
   type Item {
     id: ID!
@@ -50,7 +61,7 @@ const typeDefs = gql`
     decrementQty(productId: ID!): Cart
     completeCart: Cart
     loginUser(username: String!, password: String!): User
-    signupUser(username: String!, password: String!, email: String!, phone: Int!): User
+    signupUser(username: String!, password: String!, email: String!, phone: String!): User
     addProduct(name: String!, location: String!, thumbnail: String!, desc: String!, price: Float, category: String!): Product
   }
 `;
