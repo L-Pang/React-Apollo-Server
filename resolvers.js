@@ -238,7 +238,7 @@ const resolvers = {
                 return cart;
             }
             throw new AuthenticationError(
-                'Please provide (valid) authentication details',
+                'Wrong password!',
             );
         },
         loginUser: async (_, {
