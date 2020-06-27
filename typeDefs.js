@@ -50,6 +50,7 @@ const typeDefs = gql`
     decrementQty(productId: ID!): Cart
     completeCart: Cart
     loginUser(username: String!, password: String!): User
+    signupUser(username: String!, password: String!, email: String!, phone: Int!): User
     addProduct(name: String!, location: String!, thumbnail: String!, desc: String!, price: Float, category: String!): Product
   }
 `;
