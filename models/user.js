@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt'); // import bcrypt
+const Bcrypt = require('bcryptjs');
 const mongoose = require('mongoose') // import mongoose
     // const passportLocalMongoose = require('passport-local-mongoose');
 
@@ -66,7 +66,7 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', function() {
-    const hashedPassword = bcrypt.hashSync(this.password, 12);
+    const hashedPassword = Bcrypt.hashSync(this.password, 12);
     this.password = hashedPassword;
 });
 
@@ -75,7 +75,7 @@ userSchema.pre('save', function() {
 //     const user = this;
 //     //Hash the password with a salt round of 10, the higher the rounds the more secure, but the slower
 //     //your application becomes.
-//     const hash = await bcrypt.hash(this.password, 10);
+//     const hash = await Bcrypt.hash(this.password, 10);
 //     //Replace the plain text password with the hash and then store it
 //     this.password = hash;
 //     //Indicates we're done and moves on to the next middleware
@@ -87,7 +87,7 @@ userSchema.pre('save', function() {
 //     const user = this;
 //     //Hashes the password sent by the user for login and checks if the hashed password stored in the
 //     //database matches the one sent. Returns true if it does else false.
-//     const compare = await bcrypt.compare(password, user.password);
+//     const compare = await Bcrypt.compare(password, user.password);
 //     return compare;
 // }
 
