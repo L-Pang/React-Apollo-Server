@@ -2,13 +2,14 @@ const { AuthenticationError } = require('apollo-server');
 const faker = require('faker');
 const JsonWebToken = require('jsonwebtoken');
 const Bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 
 const jwtSecret = '34%%##@#FGFKFL';
 
 const Product = require('./models/product');
 const Category = require('./models/category');
-const mongoose = require('mongoose');
-// const User = require('./models/user');
+const User = require('./models/user');
+const Order = require('./models/order');
 
 const isTokenValid = token => {
     const bearerToken = token.split(' ');
@@ -245,10 +246,16 @@ const resolvers = {
             password
         }) => {
             let isValid;
-            const user = {
-                username: 'test',
-                password: '$2b$10$5dwsS5snIRlKu8ka5r7z0eoRyQVAsOtAZHkPJuSx.agOWjchXhSum',
-            };
+            // const user = {
+            //     username: 'test',
+            //     password: '$2b$10$5dwsS5snIRlKu8ka5r7z0eoRyQVAsOtAZHkPJuSx.agOWjchXhSum',
+            // };
+            const user = await User.findOne({ username: username }).exec();
+            console.log(user)
+
+            if (!user) {
+                throw new Error('Invalid username!')
+            }
 
             if (username === user.username) {
                 isValid = await Bcrypt.compareSync(password, user.password);
@@ -268,6 +275,30 @@ const resolvers = {
             throw new AuthenticationError(
                 'Please provide (valid) authentication details',
             );
+        },
+        signupUser: async (_, {
+            username,
+            password,
+            email,
+            phone
+        }) => {
+            const user = await User.create({
+                username,
+                email,
+                phone,
+                password: await bcrypt.hash(password, 10)
+            })
+
+            const token = JsonWebToken.sign({
+                user: user.username
+                }, jwtSecret, {
+                    expiresIn: 3600,
+            });
+            // return json web token
+            return {
+                username,
+                token,
+            };
         },
         addProduct: (_, {
             name,
