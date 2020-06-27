@@ -77,6 +77,23 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
     });
 }
 
+// async function createOrder(name, location, thumbnail, qty, total, user) {
+
+//     return await Order.create({
+//         name: name,
+//         location: location,
+//         thumbnail: thumbnail,
+//         desc: desc,
+//         price: price,
+//         rating: 5,
+//         category: {
+//             title: category
+//         }
+//     }).catch(function (error) {
+//         console.log(error)
+//     });
+// }
+
 let cart = {
     total: 0,
     products: [],
@@ -108,6 +125,10 @@ const resolvers = {
             }),
         // user: () => User.find({}),
         cart: () => cart,
+        user: (_, { username }) => User.findOne({username: username})
+            .catch(err => {
+                console.error(err)
+            }),
     },
     Mutation: {
         // addToCart: (_, {
@@ -228,17 +249,17 @@ const resolvers = {
                 //     ...cart,
                 //     complete: true,
                 // };
+                // createOrder(cart)
                 cart = {
                     total: 0,
                     products: [],
                     totalPrice: 0,
                     complete: true,
                 };
-
                 return cart;
             }
             throw new AuthenticationError(
-                'Wrong password!',
+                'Please provide (valid) authentication details',
             );
         },
         loginUser: async (_, {
@@ -251,7 +272,6 @@ const resolvers = {
             //     password: '$2b$10$5dwsS5snIRlKu8ka5r7z0eoRyQVAsOtAZHkPJuSx.agOWjchXhSum',
             // };
             const user = await User.findOne({ username: username }).exec();
-            console.log(user)
 
             if (!user) {
                 throw new Error('Invalid username!')
@@ -273,7 +293,7 @@ const resolvers = {
                 };
             }
             throw new AuthenticationError(
-                'Please provide (valid) authentication details',
+                'Wrong password!',
             );
         },
         signupUser: async (_, {
@@ -282,7 +302,11 @@ const resolvers = {
             email,
             phone
         }) => {
-            console.log(username, password, email, phone)
+            const existingUser = await User.findOne({ username: username }).exec();
+
+            if (existingUser) {
+                throw new Error('Username existed!')
+            }
             const user = await User.create({
                 username: username,
                 password: await Bcrypt.hash(password, 10),
