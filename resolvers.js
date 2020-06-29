@@ -86,10 +86,7 @@ async function createOrder(name, location, thumbnail, qty, total, id, username) 
         thumbnail: thumbnail,
         qty: qty,
         total: total,
-        customer: {
-            _id: id,
-            username: username
-        },
+        customerId: id,
         status: false
     }).catch(function (error) {
         console.log(error)
@@ -132,7 +129,11 @@ const resolvers = {
                 throw new Error('Not Authenticated')
             }
             return User.findOne({ _id: user.id })
-        }
+        },
+        order: (_, { }, { user }) => Order.find({currentId: user.id})
+            .catch(err => {
+                console.error(err)
+            })
     },
     Mutation: {
         // addToCart: (_, {

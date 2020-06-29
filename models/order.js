@@ -24,16 +24,9 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
-    customer: {
-        id: {
-            type: Schema.ObjectId,
-            ref: 'User'
-        },
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-        }
+    customerId: {
+        type: Schema.ObjectId,
+        ref: 'User'
     },
     status: {
         type: Boolean,
