@@ -11,12 +11,14 @@ const typeDefs = require('./typeDefs.js');
 const app = express();
 
 const getUser = token => {
+    const bearerToken = token.split(' ');
     try {
-        if (token) {
-            return jwt.verify(token, jwtSecret)
+        if (bearerToken) {
+            return jwt.verify(bearerToken[1], jwtSecret)
         }
         return null
     } catch (err) {
+        console.log(err, "index line 21")
         return null
     }
 }
@@ -29,9 +31,9 @@ const server = new ApolloServer({
         
     // }),
     context: ({ req, connection }) => {
-        token = req ? req.headers.authorization : connection.context.authorization;
+        const token = req ? req.headers.authorization : connection.context.authorization;
         const user = getUser(token);
-        return { user };
+        return { user, token };
     },
 });
 

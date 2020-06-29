@@ -77,22 +77,23 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
     });
 }
 
-// async function createOrder(name, location, thumbnail, qty, total, user) {
+async function createOrder(name, location, thumbnail, qty, total, id, username) {
 
-//     return await Order.create({
-//         name: name,
-//         location: location,
-//         thumbnail: thumbnail,
-//         desc: desc,
-//         price: price,
-//         rating: 5,
-//         category: {
-//             title: category
-//         }
-//     }).catch(function (error) {
-//         console.log(error)
-//     });
-// }
+    return await Order.create({
+        name: name,
+        location: location,
+        thumbnail: thumbnail,
+        qty: qty,
+        total: total,
+        customer: {
+            _id: id,
+            username: username
+        },
+        status: false
+    }).catch(function (error) {
+        console.log(error)
+    });
+}
 
 let cart = {
     total: 0,
@@ -242,27 +243,32 @@ const resolvers = {
             return cart;
         },
         completeCart: (_, { }, {
-            token
+            user, token
         }) => {
             const isValid = token ? isTokenValid(token) : false;
-
-            if (isValid) {
-                // cart = {
-                //     ...cart,
-                //     complete: true,
-                // };
-                // createOrder(cart)
-                cart = {
-                    total: 0,
-                    products: [],
-                    totalPrice: 0,
-                    complete: true,
-                };
-                return cart;
+            if(!isValid) {
+                throw new AuthenticationError(
+                    'Please provide (valid) authentication details',
+                );
             }
-            throw new AuthenticationError(
-                'Please provide (valid) authentication details',
-            );
+            var i;
+            for (i = 0; i < cart.products.length; i ++) {
+                const name = cart.products[i].name;
+                const location = cart.products[i].location;
+                const thumbnail = cart.products[i].thumbnail;
+                const qty = cart.products[i].qty;
+                const total = qty * cart.products[i].price;
+                const id = user.id;
+                const username = user.username;
+                createOrder(name, location, thumbnail, qty, total, id, username)
+            }
+            cart = {
+                total: 0,
+                products: [],
+                totalPrice: 0,
+                complete: true,
+            };
+            return cart;
         },
         loginUser: async (_, {
             username,
@@ -285,7 +291,7 @@ const resolvers = {
 
             const token = JsonWebToken.sign({
                 id: user.id,
-                user: user.username
+                username: user.username
             }, jwtSecret, {
                 expiresIn: 3600,
             });
