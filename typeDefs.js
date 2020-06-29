@@ -56,6 +56,7 @@ const typeDefs = gql `
     products(limit: Int): [Product]
     categories: [Category]
     cart: Cart
+    currentUser: User
   }
   type Mutation {
     addToCart(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Cart

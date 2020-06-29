@@ -125,10 +125,13 @@ const resolvers = {
             }),
         // user: () => User.find({}),
         cart: () => cart,
-        // user: (_, { username }) => User.findOne({username: username})
-        //     .catch(err => {
-        //         console.error(err)
-        //     }),
+        currentUser: (_, { }, { user }) => {
+            // this if statement is our authentication check
+            if (!user) {
+                throw new Error('Not Authenticated')
+            }
+            return User.findOne({ _id: user.id })
+        }
     },
     Mutation: {
         // addToCart: (_, {
@@ -205,7 +208,6 @@ const resolvers = {
         incrementQty: (_, {
             productId
         }) => {
-            console.log(productId)
             let increment = cart.products.find(item => item.id == productId);
             increment.qty++;
             cart = {
@@ -291,7 +293,6 @@ const resolvers = {
             //     username,
             //     token,
             // };
-            console.log(user)
             return {
                 user,
                 token,
