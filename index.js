@@ -18,7 +18,6 @@ const getUser = token => {
         }
         return null
     } catch (err) {
-        console.log(err, "index line 21")
         return null
     }
 }
