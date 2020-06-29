@@ -130,7 +130,14 @@ const resolvers = {
             }
             return User.findOne({ _id: user.id })
         },
-        order: (_, { }, { user }) => Order.find({currentId: user.id})
+        order: (_, { }, { user }) => Order.find({ customerId: user.id })
+            // .then(doc => {
+            //     console.log(doc)
+            // })
+            .catch(err => {
+                console.error(err)
+            }),
+        search: (_, { term }) => Product.find({ name: { $regex: term } })
             .catch(err => {
                 console.error(err)
             })
@@ -247,13 +254,13 @@ const resolvers = {
             user, token
         }) => {
             const isValid = token ? isTokenValid(token) : false;
-            if(!isValid) {
+            if (!isValid) {
                 throw new AuthenticationError(
                     'Please provide (valid) authentication details',
                 );
             }
             var i;
-            for (i = 0; i < cart.products.length; i ++) {
+            for (i = 0; i < cart.products.length; i++) {
                 const name = cart.products[i].name;
                 const location = cart.products[i].location;
                 const thumbnail = cart.products[i].thumbnail;
