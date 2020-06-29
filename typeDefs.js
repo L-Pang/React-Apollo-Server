@@ -51,12 +51,20 @@ const typeDefs = gql `
     totalPrice: Float
     complete: Boolean
   }
+  type Review {
+    comment: String!
+    rating: Float
+    productId: ID!
+    userId: ID!
+  }
   type Query {
     product: Product
     products(limit: Int): [Product]
     categories: [Category]
     cart: Cart
     currentUser: User
+    order: Order
+    review: Review
   }
   type Mutation {
     addToCart(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Cart
@@ -67,6 +75,7 @@ const typeDefs = gql `
     loginUser(username: String!, password: String!): LoginResponse
     signupUser(username: String!, password: String!, email: String!, phone: String!): User
     addProduct(name: String!, location: String!, thumbnail: String!, desc: String!, price: Float, category: String!): Product
+    addReview(comment: String!, rating: Float!, productId: ID!, userId: ID!): Review
   }
 `;
 

@@ -10,6 +10,7 @@ const Product = require('./models/product');
 const Category = require('./models/category');
 const User = require('./models/user');
 const Order = require('./models/order');
+const Review = require('./models/review');
 
 const isTokenValid = token => {
     const bearerToken = token.split(' ');
@@ -124,10 +125,9 @@ const resolvers = {
             .catch(err => {
                 console.error(err)
             }),
-        // user: () => User.find({}),
         cart: () => cart,
         currentUser: (_, { }, { user }) => {
-            // this if statement is our authentication check
+
             if (!user) {
                 throw new Error('Not Authenticated')
             }
@@ -335,6 +335,27 @@ const resolvers = {
             category
         }) => {
             return createProduct(name, location, thumbnail, desc, price, category);
+        },
+        addReview: async (_, {
+            comment,
+            rating,
+            productId
+        }, { user, token }) => {
+            const isValid = token ? isTokenValid(token) : false;
+            if (!isValid) {
+                throw new AuthenticationError(
+                    'Please provide (valid) authentication details',
+                );
+            }
+            return await Review.create({
+                comment: comment,
+                rating: rating,
+                productId: productId,
+                userId: user.id,
+            }).catch(function (error) {
+                console.log(error)
+            });
+
         },
     },
 };
