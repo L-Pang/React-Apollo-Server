@@ -34,8 +34,8 @@ const typeDefs = gql `
     thumbnail: String!
     qty: Int!
     total: Float
-    customers: [User]
-    status: Boolean
+    user: User
+    complete: Boolean
   }
   type Item {
     id: ID!
@@ -63,7 +63,7 @@ const typeDefs = gql `
     categories: [Category]
     cart: Cart
     currentUser: User
-    order: [Order]
+    orders: [Order]
     review: Review
     search(term: String!): [Product]
   }

@@ -28,34 +28,8 @@ const userSchema = new Schema({
     //     ref: 'post',
     // }, ],
     orders: [{
-        id: {
-            type: Schema.ObjectId,
-            ref: 'Order'
-        },
-        name: {
-            type: String,
-            required: true
-        },
-        location: {
-            type: String,
-            required: true
-        },
-        thumbnail: {
-            type: String,
-            required: true
-        },
-        qty: {
-            type: Number,
-            required: true
-        },
-        total: {
-            type: Number,
-            required: true
-        },
-        status: {
-            type: Boolean,
-            required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
     }]
 }, {
     collection: 'User'

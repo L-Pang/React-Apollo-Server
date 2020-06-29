@@ -24,11 +24,11 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
-    customerId: {
+    user: {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    status: {
+    complete: {
         type: Boolean,
         required: true
     }

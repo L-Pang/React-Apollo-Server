@@ -80,14 +80,17 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
 
 async function createOrder(name, location, thumbnail, qty, total, id, username) {
 
-    return await Order.create({
+     await Order.create({
         name: name,
         location: location,
         thumbnail: thumbnail,
         qty: qty,
         total: total,
-        customerId: id,
-        status: false
+        user: {
+            _id: id,
+            username: username
+        },
+        complete: false
     }).catch(function (error) {
         console.log(error)
     });
@@ -130,7 +133,7 @@ const resolvers = {
             }
             return User.findOne({ _id: user.id })
         },
-        order: (_, { }, { user }) => Order.find({ customerId: user.id })
+        orders: (_, { }, { user }) => Order.find({ user: {_id: user.id} })
             // .then(doc => {
             //     console.log(doc)
             // })
@@ -138,6 +141,9 @@ const resolvers = {
                 console.error(err)
             }),
         search: (_, { term }) => Product.find({ name: { $regex: term } })
+            .then(doc => {
+                console.log(doc)
+            })
             .catch(err => {
                 console.error(err)
             })
