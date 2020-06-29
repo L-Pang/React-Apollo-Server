@@ -125,10 +125,10 @@ const resolvers = {
             }),
         // user: () => User.find({}),
         cart: () => cart,
-        user: (_, { username }) => User.findOne({username: username})
-            .catch(err => {
-                console.error(err)
-            }),
+        // user: (_, { username }) => User.findOne({username: username})
+        //     .catch(err => {
+        //         console.error(err)
+        //     }),
     },
     Mutation: {
         // addToCart: (_, {
@@ -228,18 +228,18 @@ const resolvers = {
                 complete: false,
             };
             if (decrement.qty <= 0) {
-              newProducts = cart.products.filter(item => item.id !== productId);
-              cart = {
-                  ...cart,
-                  total: cart.total,
-                  products: [...newProducts],
-                  totalPrice: cart.totalPrice,
-                  complete: false,
-              };
+                newProducts = cart.products.filter(item => item.id !== productId);
+                cart = {
+                    ...cart,
+                    total: cart.total,
+                    products: [...newProducts],
+                    totalPrice: cart.totalPrice,
+                    complete: false,
+                };
             }
             return cart;
         },
-        completeCart: (_, {}, {
+        completeCart: (_, { }, {
             token
         }) => {
             const isValid = token ? isTokenValid(token) : false;
@@ -266,35 +266,36 @@ const resolvers = {
             username,
             password
         }) => {
-            let isValid;
-            // const user = {
-            //     username: 'test',
-            //     password: '$2b$10$5dwsS5snIRlKu8ka5r7z0eoRyQVAsOtAZHkPJuSx.agOWjchXhSum',
-            // };
+
             const user = await User.findOne({ username: username }).exec();
 
             if (!user) {
-                throw new Error('Invalid username!')
+                throw new AuthenticationError('Invalid username!')
             }
 
-            if (username === user.username) {
-                isValid = await Bcrypt.compareSync(password, user.password);
+            const passwordMatch = await Bcrypt.compareSync(password, user.password);
+
+            if (!passwordMatch) {
+                throw new AuthenticationError(
+                    'Wrong password!',
+                );
             }
 
-            if (isValid) {
-                const token = JsonWebToken.sign({
-                    user: user.username
-                }, jwtSecret, {
-                    expiresIn: 3600,
-                });
-                return {
-                    username,
-                    token,
-                };
+            const token = JsonWebToken.sign({
+                id: user.id,
+                user: user.username
+            }, jwtSecret, {
+                expiresIn: 3600,
+            });
+            // return {
+            //     username,
+            //     token,
+            // };
+            console.log(user)
+            return {
+                user,
+                token,
             }
-            throw new AuthenticationError(
-                'Wrong password!',
-            );
         },
         signupUser: async (_, {
             username,
@@ -316,16 +317,7 @@ const resolvers = {
             }).catch(function (error) {
                 console.log(error)
             });
-            const token = JsonWebToken.sign({
-                user: user.username
-                }, jwtSecret, {
-                    expiresIn: 3600,
-            });
-            // return json web token
-            return {
-                username,
-                token,
-            };
+            return user
         },
         addProduct: (_, {
             name,

@@ -22,7 +22,9 @@ const typeDefs = gql `
     email: String!
     phone: String!
     orders: [Order]
-    customers: [User]
+  }
+  type LoginResponse {
+    user: User
     token: String!
   }
   type Order {
@@ -32,6 +34,7 @@ const typeDefs = gql `
     thumbnail: String!
     qty: Int!
     total: Float
+    customers: [User]
     status: Boolean
   }
   type Item {
@@ -53,7 +56,6 @@ const typeDefs = gql `
     products(limit: Int): [Product]
     categories: [Category]
     cart: Cart
-    user(username: String): [User]
   }
   type Mutation {
     addToCart(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Cart
@@ -61,7 +63,7 @@ const typeDefs = gql `
     incrementQty(productId: ID!): Cart
     decrementQty(productId: ID!): Cart
     completeCart: Cart
-    loginUser(username: String!, password: String!): User
+    loginUser(username: String!, password: String!): LoginResponse
     signupUser(username: String!, password: String!, email: String!, phone: String!): User
     addProduct(name: String!, location: String!, thumbnail: String!, desc: String!, price: Float, category: String!): Product
   }
