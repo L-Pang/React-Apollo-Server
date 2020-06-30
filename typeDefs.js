@@ -52,6 +52,7 @@ const typeDefs = gql `
     complete: Boolean
   }
   type Review {
+    id: ID!
     comment: String!
     rating: Float
     productId: ID!
@@ -64,7 +65,7 @@ const typeDefs = gql `
     cart: Cart
     currentUser: User
     orders: [Order]
-    reviews: [Review]
+    reviews(productId: ID!): [Review]
     currentUserReviews: [Review]
     search(term: String!): [Product]
     user(id: ID!): User

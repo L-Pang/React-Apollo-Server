@@ -140,7 +140,7 @@ const resolvers = {
             .catch(err => {
                 console.error(err)
             }),
-        search: (_, { term }) => Product.find({ name: { $regex: term, $option: 'i' } })
+        search: (_, { term }) => Product.find({ $text: { $search: term } })
             // .then(doc => {
             //     console.log(doc)
             // })
