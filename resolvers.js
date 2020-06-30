@@ -140,7 +140,7 @@ const resolvers = {
             .catch(err => {
                 console.error(err)
             }),
-        search: (_, { term }) => Product.find({ $text: { $search: term } })
+        search: (_, { term }) => Product.find({ name: { $regex: term, $option: 'i' } })
             // .then(doc => {
             //     console.log(doc)
             // })
@@ -350,7 +350,18 @@ const resolvers = {
             }).catch(function (error) {
                 console.log(error)
             });
-            return user
+
+            const token = JsonWebToken.sign({
+                id: user.id,
+                username: user.username
+            }, jwtSecret, {
+                expiresIn: 3600,
+            });
+
+            return {
+                user,
+                token,
+            }
         },
         addProduct: (_, {
             name,
