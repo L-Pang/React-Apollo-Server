@@ -80,7 +80,7 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
 
 async function createOrder(name, location, thumbnail, qty, total, id, username) {
 
-     await Order.create({
+    await Order.create({
         name: name,
         location: location,
         thumbnail: thumbnail,
@@ -133,7 +133,7 @@ const resolvers = {
             }
             return User.findOne({ _id: user.id })
         },
-        orders: (_, { }, { user }) => Order.find({ user: {_id: user.id} })
+        orders: (_, { }, { user }) => Order.find({ user: { _id: user.id } })
             // .then(doc => {
             //     console.log(doc)
             // })
@@ -141,6 +141,20 @@ const resolvers = {
                 console.error(err)
             }),
         search: (_, { term }) => Product.find({ name: { $regex: term } })
+            // .then(doc => {
+            //     console.log(doc)
+            // })
+            .catch(err => {
+                console.error(err)
+            }),
+        review: (_, { productId }) => Review.find({ productId: productId })
+            // .then(doc => {
+            //     console.log(doc)
+            // })
+            .catch(err => {
+                console.error(err)
+            }),
+        user: (_, { id }) => User.findById(id)
             // .then(doc => {
             //     console.log(doc)
             // })

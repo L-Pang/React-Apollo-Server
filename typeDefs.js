@@ -66,6 +66,7 @@ const typeDefs = gql `
     orders: [Order]
     review: Review
     search(term: String!): [Product]
+    user(id: ID!): User
   }
   type Mutation {
     addToCart(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Cart
