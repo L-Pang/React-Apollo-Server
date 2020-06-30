@@ -140,7 +140,7 @@ const resolvers = {
             .catch(err => {
                 console.error(err)
             }),
-        search: (_, { term }) => Product.find({ name: { $regex: term } })
+        search: (_, { term }) => Product.find({ $text: { $search: term } })
             // .then(doc => {
             //     console.log(doc)
             // })
@@ -148,16 +148,10 @@ const resolvers = {
                 console.error(err)
             }),
         review: (_, { productId }) => Review.find({ productId: productId })
-            // .then(doc => {
-            //     console.log(doc)
-            // })
             .catch(err => {
                 console.error(err)
             }),
         user: (_, { id }) => User.findById(id)
-            // .then(doc => {
-            //     console.log(doc)
-            // })
             .catch(err => {
                 console.error(err)
             })
