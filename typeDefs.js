@@ -64,7 +64,8 @@ const typeDefs = gql `
     cart: Cart
     currentUser: User
     orders: [Order]
-    review: Review
+    reviews: [Review]
+    currentUserReviews: [Review]
     search(term: String!): [Product]
     user(id: ID!): User
   }

@@ -147,7 +147,11 @@ const resolvers = {
             .catch(err => {
                 console.error(err)
             }),
-        review: (_, { productId }) => Review.find({ productId: productId })
+        reviews: (_, { productId }) => Review.find({ productId: productId })
+            .catch(err => {
+                console.error(err)
+            }),
+        currentUserReviews: (_, { }, { user }) => Review.find({ userId: user.id })
             .catch(err => {
                 console.error(err)
             }),
