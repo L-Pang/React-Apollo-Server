@@ -141,9 +141,9 @@ const resolvers = {
                 console.error(err)
             }),
         search: (_, { term }) => Product.find({ name: { $regex: term } })
-            .then(doc => {
-                console.log(doc)
-            })
+            // .then(doc => {
+            //     console.log(doc)
+            // })
             .catch(err => {
                 console.error(err)
             })
