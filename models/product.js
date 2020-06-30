@@ -6,7 +6,9 @@ const Schema = mongoose.Schema
 const productSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        index: true,
+        unique: true
     },
     location: {
         type: String,
