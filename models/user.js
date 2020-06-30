@@ -30,7 +30,12 @@ const userSchema = new Schema({
     orders: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
-    }]
+    }],
+    role: {
+        type: String,
+        default: 'basic',
+        enum: ["basic", "admin"]
+    },
 }, {
     collection: 'User'
 });

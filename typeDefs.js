@@ -22,6 +22,7 @@ const typeDefs = gql `
     email: String!
     phone: String!
     orders: [Order]
+    role: String!
   }
   type LoginResponse {
     user: User

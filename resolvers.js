@@ -346,7 +346,8 @@ const resolvers = {
                 password: await Bcrypt.hash(password, 10),
                 email: email,
                 phone: phone,
-                orders: []
+                orders: [],
+                role: 'basic'
             }).catch(function (error) {
                 console.log(error)
             });
