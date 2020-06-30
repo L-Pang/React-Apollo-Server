@@ -317,7 +317,8 @@ const resolvers = {
 
             const token = JsonWebToken.sign({
                 id: user.id,
-                username: user.username
+                username: user.username,
+                role: user.role
             }, jwtSecret, {
                 expiresIn: 3600,
             });
@@ -354,7 +355,8 @@ const resolvers = {
 
             const token = JsonWebToken.sign({
                 id: user.id,
-                username: user.username
+                username: user.username,
+                role: user.role
             }, jwtSecret, {
                 expiresIn: 3600,
             });
