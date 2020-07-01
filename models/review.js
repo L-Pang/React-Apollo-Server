@@ -19,6 +19,10 @@ const reviewSchema = new Schema({
     userId: {
         type: Schema.ObjectId,
         ref: 'User'
+    },
+    userName: {
+        type: String,
+        required: true
     }
 }, {
     collection: 'Review'

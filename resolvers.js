@@ -111,7 +111,7 @@ const resolvers = {
     //     cart: () => cart,
     // },
     Query: {
-        product: () => Product.find({})
+        product: (_, { productId }) => Product.findOne({_id: productId})
             .catch(err => {
                 console.error(err)
             }),
@@ -389,6 +389,7 @@ const resolvers = {
                 rating: rating,
                 productId: productId,
                 userId: user.id,
+                userName: user.username
             }).catch(function (error) {
                 console.log(error)
             });

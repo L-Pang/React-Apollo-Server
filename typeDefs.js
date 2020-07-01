@@ -59,9 +59,10 @@ const typeDefs = gql `
     rating: Float
     productId: ID!
     userId: ID!
+    userName: String!
   }
   type Query {
-    product: Product
+    product(productId: ID!): Product
     products(limit: Int): [Product]
     categories: [Category]
     cart: Cart
