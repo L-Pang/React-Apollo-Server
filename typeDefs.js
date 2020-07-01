@@ -35,6 +35,7 @@ const typeDefs = gql `
     thumbnail: String!
     qty: Int!
     total: Float
+    productId: ID!
     userId: ID!
     complete: Boolean
   }
@@ -70,6 +71,7 @@ const typeDefs = gql `
     currentUserReviews: [Review]
     search(term: String!): [Product]
     user(id: ID!): User
+    permission: Boolean
   }
   type Mutation {
     addToCart(productId: ID!, name: String!, location: String!, thumbnail: String!, price: Float): Cart
