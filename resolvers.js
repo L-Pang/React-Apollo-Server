@@ -344,7 +344,7 @@ const resolvers = {
                 password: await Bcrypt.hash(password, 10),
                 email: email,
                 phone: phone,
-                profilePic: profilePic,
+                profilePic: 'https://i.dlpng.com/static/png/512062_preview.png',
                 orders: [],
                 role: 'basic'
             }).catch(function (error) {
