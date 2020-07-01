@@ -78,7 +78,7 @@ async function createProduct(name, location, thumbnail, desc, price, category) {
     });
 }
 
-async function createOrder(name, location, thumbnail, qty, total, id, username) {
+async function createOrder(name, location, thumbnail, qty, total, id) {
 
     await Order.create({
         name: name,
@@ -86,10 +86,7 @@ async function createOrder(name, location, thumbnail, qty, total, id, username) 
         thumbnail: thumbnail,
         qty: qty,
         total: total,
-        user: {
-            _id: id,
-            username: username
-        },
+        userId: id,
         complete: false
     }).catch(function (error) {
         console.log(error)
@@ -285,8 +282,7 @@ const resolvers = {
                 const qty = cart.products[i].qty;
                 const total = qty * cart.products[i].price;
                 const id = user.id;
-                const username = user.username;
-                createOrder(name, location, thumbnail, qty, total, id, username)
+                createOrder(name, location, thumbnail, qty, total, id)
             }
             cart = {
                 total: 0,
