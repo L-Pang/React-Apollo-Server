@@ -21,6 +21,7 @@ const typeDefs = gql `
     password: String!
     email: String!
     phone: String!
+    profilePic: String!
     orders: [ID]
     role: String!
   }
@@ -81,8 +82,8 @@ const typeDefs = gql `
     decrementQty(productId: ID!): Cart
     completeCart: Cart
     loginUser(username: String!, password: String!): LoginResponse
-    signupUser(username: String!, password: String!, email: String!, phone: String!): LoginResponse
-    editUser(password: String!, email: String!, phone: String!): User
+    signupUser(username: String!, password: String!, email: String!, phone: String!, profilePic: String!): LoginResponse
+    editUser(password: String!, email: String!, phone: String!, profilePic: String!): User
     addProduct(name: String!, location: String!, thumbnail: String!, desc: String!, price: Float, category: String!): Product
     addReview(comment: String!, rating: Float!, productId: ID!, userId: ID!): Review
   }

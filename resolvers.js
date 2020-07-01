@@ -344,6 +344,7 @@ const resolvers = {
                 password: await Bcrypt.hash(password, 10),
                 email: email,
                 phone: phone,
+                profilePic: profilePic,
                 orders: [],
                 role: 'basic'
             }).catch(function (error) {
@@ -366,10 +367,11 @@ const resolvers = {
         editUser: async (_, {
             password,
             email,
-            phone
+            phone,
+            profilePic
         }, {user}) => {
             const filter = { username: user.username };
-            const update = { password: password, email: email, phone: phone };
+            const update = { password: password, email: email, phone: phone, profilePic: profilePic };
             const opts = { new: true };
             return await User.findOneAndUpdate(filter, update, opts);
         },

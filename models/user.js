@@ -23,6 +23,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    profilePic: {
+        type: String,
+        required: true,
+    },
     // posts: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'post',
