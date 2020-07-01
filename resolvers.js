@@ -373,7 +373,7 @@ const resolvers = {
             const filter = { username: user.username };
             const update = { password: password, email: email, phone: phone, profilePic: profilePic };
             const opts = { new: true };
-            const user =  await User.findOneAndUpdate(filter, update, opts)
+            user =  await User.findOneAndUpdate(filter, update, opts)
                 .catch(function (error) {
                     console.log(error)
                 });
