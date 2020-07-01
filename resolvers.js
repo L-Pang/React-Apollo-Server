@@ -363,6 +363,16 @@ const resolvers = {
                 token,
             }
         },
+        editUser: async (_, {
+            password,
+            email,
+            phone
+        }, {user}) => {
+            const filter = { username: user.username };
+            const update = { password: password, email: email, phone: phone };
+            const opts = { new: true };
+            return await User.findOneAndUpdate(filter, update, opts);
+        },
         addProduct: (_, {
             name,
             location,
