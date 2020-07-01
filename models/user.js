@@ -40,10 +40,10 @@ const userSchema = new Schema({
     collection: 'User'
 });
 
-userSchema.pre('save', function() {
-    const hashedPassword = Bcrypt.hashSync(this.password, 12);
-    this.password = hashedPassword;
-});
+// userSchema.pre('save', function() {
+//     const hashedPassword = Bcrypt.hashSync(this.password, 12);
+//     this.password = hashedPassword;
+// });
 
 
 // create and export the model
