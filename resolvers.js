@@ -344,7 +344,7 @@ const resolvers = {
                 password: await Bcrypt.hash(password, 10),
                 email: email,
                 phone: phone,
-                profilePic: 'https://visualpharm.com/assets/908/User-595b40b85ba036ed117dc597.svg',
+                profilePic: 'https://www.pngitem.com/pimgs/m/4-40070_user-staff-man-profile-user-account-icon-jpg.png',
                 orders: [],
                 role: 'basic'
             }).catch(function (error) {
@@ -371,6 +371,7 @@ const resolvers = {
             profilePic
         }, {user}) => {
             const filter = { username: user.username };
+            password = await Bcrypt.hash(password, 10)
             const update = { password: password, email: email, phone: phone, profilePic: profilePic };
             const opts = { new: true };
             user =  await User.findOneAndUpdate(filter, update, opts)
