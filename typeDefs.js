@@ -35,7 +35,7 @@ const typeDefs = gql `
     thumbnail: String!
     qty: Int!
     total: Float
-    user: User
+    userId: ID!
     complete: Boolean
   }
   type Item {

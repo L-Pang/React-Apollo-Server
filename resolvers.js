@@ -133,7 +133,7 @@ const resolvers = {
             }
             return User.findOne({ _id: user.id })
         },
-        orders: (_, { }, { user }) => Order.find({ user: { _id: user.id } })
+        orders: (_, { }, { user }) => Order.find({ userId: user.id })
             // .then(doc => {
             //     console.log(doc)
             // })
