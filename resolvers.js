@@ -373,7 +373,22 @@ const resolvers = {
             const filter = { username: user.username };
             const update = { password: password, email: email, phone: phone, profilePic: profilePic };
             const opts = { new: true };
-            return await User.findOneAndUpdate(filter, update, opts);
+            const user =  await User.findOneAndUpdate(filter, update, opts)
+                .catch(function (error) {
+                    console.log(error)
+                });
+            const token = JsonWebToken.sign({
+                id: user.id,
+                username: user.username,
+                role: user.role
+            }, jwtSecret, {
+                expiresIn: 3600,
+            });
+
+            return {
+                user,
+                token,
+            }
         },
         addProduct: (_, {
             name,
