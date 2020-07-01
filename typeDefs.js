@@ -21,7 +21,7 @@ const typeDefs = gql `
     password: String!
     email: String!
     phone: String!
-    orders: [Order]
+    orders: [ID]
     role: String!
   }
   type LoginResponse {
